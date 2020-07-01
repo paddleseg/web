@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, Typography, Input } from '@material-ui/core'
+import { Grid, Card, Button } from '@material-ui/core'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import 'fontsource-roboto'
 
@@ -37,8 +37,6 @@ class IndexPage extends Component<uploadProps, uploadState> {
     }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.files);
-        console.log(typeof (event.target.files))
         if (event.target.files && event.target.files[0]) {
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -51,7 +49,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 })
             }
 
-
+            this.props.onUpload(event.target.files[0], "test.jpg")
         }
 
     };
