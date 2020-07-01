@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { Grid, Card, Button } from '@material-ui/core'
+import { Grid, Card, Button, Typography } from '@material-ui/core'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import 'fontsource-roboto'
 
 // 首页文件上传
 class IndexPage extends Component<{}, {}> {
@@ -28,12 +29,19 @@ class IndexPage extends Component<{}, {}> {
                     <Grid container spacing={6} >
                         <Grid item xs={6} >
                             <Grid container justify="center">
+                                {/* <Typography variant="h4" component="h4" style={{ margin: 5 }}>
+                                    原图
+                                </Typography> */}
                                 <img style={{ width: '100%' }} src='https://material-ui.com/static/images/grid-list/breakfast.jpg' alt='breakfast' />
                             </Grid>
                         </Grid>
                         <Grid item xs={6}>
                             <Grid container justify="center">
-                                <img style={{ width: '100%' }} src='1.jpg' alt='breakfast' />
+                                {/* <Typography variant="h4" component="h4" style={{ margin: 5 }}>
+                                    效果图
+                                </Typography> */}
+                                <img style={{ width: '100%' }} src='https://material-ui.com/static/images/grid-list/breakfast.jpg
+                                ' alt='breakfast' />
                             </Grid>
                         </Grid>
                     </Grid>
