@@ -33,6 +33,7 @@
     "grpc-web": "^1.0.7",
     "monaco-editor": "^0.19.3",
     "monaco-editor-webpack-plugin": "^1.8.2",
+    "qiniu-js": "^3.0.3",
     "query-string": "^6.10.1",
     "react": "^16.12.0",
     "react-app-rewired": "^2.1.5",

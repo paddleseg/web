@@ -1,0 +1,3 @@
+export const UPLOAD_FILE = 'UPLOAD_FILE_QINIU'
+
+export const UPLOAD_FILE_TO_QINIU = 'QINIU'
