@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { UPLOAD_FILE_TO_QINIU } from '../utils/actions';
-import { uploadFileToQiNiu } from "../service/qiniu";
+import { uploadFileToQiNiu, getAuploadToken } from "../service/qiniu";
 
 type Action = {
     type: string;
@@ -23,9 +23,14 @@ export function uploadFile(file: File, key: string) {
 
         try {
             // await 上传
-            await uploadFileToQiNiu(file, key, "")
-            dispath({
-                type: UPLOAD_FILE_TO_QINIU,
+            getAuploadToken().then(async e => {
+                console.log(e.data)
+                await uploadFileToQiNiu(file, key, e.data)
+                dispath({
+                    type: UPLOAD_FILE_TO_QINIU,
+                })
+            }).catch(e => {
+                console.log(e)
             })
         } catch (e) {
             dispath({
