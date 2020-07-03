@@ -1,15 +1,17 @@
 import * as qiniu from 'qiniu-js';
 import axios from './request';
-import { Http2ServerRequest } from 'http2';
+import * as httpvariable from '../utils/http'
+
+export function tellServerFileName(name: string) {
+    return axios.post(httpvariable.CDNFILENAME, name)
+}
 
 export function getAuploadToken() {
-    return axios.get('http://127.0.0.1/cdn/token')
-    // axios.get('http://127.0.0.1/cdn/token').then(e => {
-    //     if (e.status === 200) {
-    //         console.log(e.data)
-    //         return e.data
-    //     }
-    // }).catch(e => { return e })
+    return axios.get(httpvariable.CDNTOKEN)
+}
+
+export function getPredictionFile(src: string) {
+    return axios.post(httpvariable.CDNPREFILENAME, src)
 }
 
 export function uploadFileToQiNiu(file: File, key: string, token: string,) {
