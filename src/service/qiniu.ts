@@ -1,6 +1,13 @@
 import * as qiniu from 'qiniu-js';
 import axios from './request';
 import * as httpvariable from '../utils/http'
+import * as fs from 'fs'
+
+export function downFile(url: string, name: string) {
+    axios.get(url).then(e => {
+        fs.createWriteStream(name)
+    })
+}
 
 export function tellServerFileName(name: string) {
     return axios.post(httpvariable.CDNFILENAME, name)

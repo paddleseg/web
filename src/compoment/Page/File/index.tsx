@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, LinearProgress } from '@material-ui/core'
+import { Grid, Card, Button, LinearProgress, Typography, Paper, CardMedia, CardContent, CardActionArea, CardActions, CardHeader, IconButton } from '@material-ui/core'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import GetAppIcon from '@material-ui/icons/GetApp';
+
 import 'fontsource-roboto'
 
-import { uploadFile } from '../../../redux/upload';
+import { uploadFile, downfileFromCDN } from '../../../redux/upload';
 
 interface uploadProps {
     onUpload: (file: File, key: string) => void
+    onDownload: (url: string, file: string) => void
     uploading: boolean,
     prediction: string
 }
@@ -50,6 +54,20 @@ class IndexPage extends Component<uploadProps, uploadState> {
 
     }
 
+
+    download = () => {
+        var index = this.props.prediction.lastIndexOf("/") + 1;
+        var filename = this.props.prediction.substr(index);
+        fetch(this.props.prediction).then(res => res.blob().then(blob => {
+            var a = document.createElement('a');
+            var url = window.URL.createObjectURL(blob);
+            // var filename = filename;
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }))
+    }
 
     tick() {
         if (this.state.progress > 100) {
@@ -95,8 +113,6 @@ class IndexPage extends Component<uploadProps, uploadState> {
     };
 
     render() {
-        // console.log(this.state, this.props)
-
         let imgDiv;
         let upload;
 
@@ -108,35 +124,85 @@ class IndexPage extends Component<uploadProps, uploadState> {
             )
         } else {
             if (this.props.prediction) {
-                // this.setState({
-                //     progress: 0,
-                //     buffer: 0,
-                // })
                 this.state.progress = 0
                 this.state.buffer = 0
                 clearInterval(interval)
             }
             upload = (
-                <Grid container justify="center">
-                    <img style={{ width: '100%' }} src={this.props.prediction} alt='breakfast' />
+                <Grid container justify="flex-start">
+                    <Card>
+
+                        <CardHeader
+                            action={
+                                <IconButton aria-label="download">
+                                    {/* <GetAppIcon onClick={this.download} /> */}
+                                    <GetAppIcon onClick={this.download} />
+                                </IconButton>
+                            }
+
+                        />
+                        <CardMedia
+                            component="img"
+                            alt="预测图"
+                            image={this.props.prediction}
+                            title="预测图"
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h3" component="h2">
+                                预测图
+                                </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                图片背景已设置为透明背景,可点击右侧按钮完成下载
+                                </Typography>
+                        </CardContent>
+                    </Card>
+                    {/* <Paper elevation={3}>
+                        <img style={{ width: '100%' }} src={this.props.prediction} alt='预测图片' />
+                    </Paper> */}
                 </Grid>
             )
         }
         if (this.state.showImg) {
             imgDiv = (
-                <Grid container spacing={6} >
-                    <Grid item xs={6} >
-                        <Grid container justify="center">
-                            {/* <Typography variant="h4" component="h4" style={{ margin: 5 }}>
-                                    原图
-                                </Typography> */}
-                            <img style={{ width: '100%' }} src={this.state.srcImgFile} alt='breakfast' />
+                <Grid container
+                    direction="row"
+                    justify="center"
+                    alignItems="baseline" spacing={1} >
+                    <Grid item xs={3} >
+                        <Grid container justify="flex-end">
+                            <Card>
+                                <CardHeader
+                                    action={
+                                        <IconButton aria-label="settings">
+                                            <FavoriteBorderIcon />
+                                        </IconButton>
+                                    }
+                                />
+                                <CardMedia
+                                    component="img"
+                                    alt="原图"
+                                    image={this.state.srcImgFile}
+                                    title="原图"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h3" component="h2">
+                                        原图
+                                        </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        为了提高深度学习质量，您的图片将会被作为学习数据集的一部分
+                                        </Typography>
+                                </CardContent>
+
+                            </Card>
+                            {/* <Paper elevation={3}>
+                                <img style={{ width: '100%' }} src={this.state.srcImgFile} alt='原图' />
+                            </Paper> */}
                         </Grid>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={3}>
                         {upload}
                     </Grid>
-                </Grid>
+                </Grid >
             )
         }
         return (
@@ -145,13 +211,22 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 <Grid container justify="center">
                     <Card variant="outlined">
                         <div style={{ padding: '4rem 2rem', backgroundColor: 'rgba(180, 120, 118, 0.2)' }}>
-                            <h1 className="display-4">Hello, world!</h1>
-                            <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                            {/* <hr className="my-4"> */}
-                            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
                             <Grid container justify="center">
+                                <div style={{ maxWidth: 500 }}>
+                                    <Typography variant="h1" component="h2" gutterBottom>
+                                        自动抠图
+                                </Typography>
+                                </div>
+                            </Grid>
+
+                            <Typography variant="subtitle1" gutterBottom>
+                                点击上传图片选择想要处理的图片(.jpeg/.png格式). 目前仅支持处理带有人像的图片
+                            </Typography>
+
+
+                            <Grid container justify="center" style={{ marginTop: 30 }}>
                                 <Button variant="contained" color="primary" startIcon={<CloudUploadIcon />} onClick={this._openFileDialog} >
-                                    UPLOAD
+                                    上传图片
                                 </Button>
                                 <input id="myInput" onChange={this.handleChange} type="file" ref="fileUpload" style={{ display: 'none' }} />
                             </Grid>
@@ -177,7 +252,8 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(
     {
-        onUpload: uploadFile
+        onUpload: uploadFile,
+        onDownload: downfileFromCDN,
     },
     dispatch
 )

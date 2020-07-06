@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { UPLOAD_FILE_TO_QINIU, STAGE_START, STAGE_END } from '../utils/actions';
-import { uploadFileToQiNiu, getAuploadToken, tellServerFileName, getPredictionFile } from "../service/qiniu";
+import { uploadFileToQiNiu, getAuploadToken, tellServerFileName, getPredictionFile, downFile } from "../service/qiniu";
 
 type Action = {
     type: string,
@@ -19,6 +19,16 @@ type State = Readonly<{
 const initalState: State = {
     uploading: false,
     predictionfile: "",
+}
+
+export function downfileFromCDN(url: string, file: string) {
+    return async (dispath: Dispatch) => {
+        try {
+            downFile(url, file)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 }
 
 export function uploadFile(file: File, key: string) {
