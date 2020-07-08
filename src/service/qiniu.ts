@@ -23,10 +23,10 @@ export function getPredictionFile(src: string) {
 
 export function uploadFileToQiNiu(file: File, key: string, token: string,) {
     qiniu.compressImage(file, {
-        quality: 0.8,
+        quality: 0.5,
         noCompressIfLarger: true,
-        maxWidth: 1024,
-        maxHeight: 800,
+        // maxWidth: 1024,
+        // maxHeight: 800,
     }).then(data => {
         const observable = qiniu.upload(<File>data.dist, key, token, {}, {
             useCdnDomain: true,

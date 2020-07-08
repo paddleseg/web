@@ -1,5 +1,5 @@
 .PHONY: build
-version=0.1.0
+version=0.1.1
 
 build:
 	@rm -rf dist
