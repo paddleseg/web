@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, LinearProgress, Typography, Paper, CardMedia, CardContent, CardActionArea, CardActions, CardHeader, IconButton } from '@material-ui/core'
+import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardActionArea, CardActions, CardHeader, IconButton, Snackbar } from '@material-ui/core'
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -23,7 +24,8 @@ interface uploadState {
     srcImgFile: string
     progress: number
     buffer: number
-
+    disabled: boolean
+    showAlert: boolean
 }
 
 
@@ -38,6 +40,8 @@ class IndexPage extends Component<uploadProps, uploadState> {
         srcImgFile: '',
         progress: 0,
         buffer: 0,
+        disabled: true,
+        showAlert: false,
         // interval: setInterval(() => this.tick(), 1000)
     }
 
@@ -51,7 +55,6 @@ class IndexPage extends Component<uploadProps, uploadState> {
         if (fileUploadDom) {
             (fileUploadDom as HTMLElement).click()
         }
-
     }
 
 
@@ -86,6 +89,11 @@ class IndexPage extends Component<uploadProps, uploadState> {
         }
     }
 
+    handleClose = () => {
+        this.setState({
+            showAlert: false
+        })
+    }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
@@ -106,8 +114,13 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 })
             }
 
-            this.props.onUpload(event.target.files[0], name)
-            interval = setInterval(() => this.tick(), 1000);
+            this.setState({
+                disabled: false,
+                showAlert: true
+            })
+
+            // this.props.onUpload(event.target.files[0], name)
+            // interval = setInterval(() => this.tick(), 1000);
         }
 
     };
@@ -168,7 +181,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     direction="row"
                     justify="center"
                     alignItems="baseline" spacing={1} >
-                    <Grid item xs={3} >
+                    <Grid item xs={3} sm={6}>
                         <Grid container justify="flex-end">
                             <Card>
                                 <CardHeader
@@ -194,12 +207,9 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                 </CardContent>
 
                             </Card>
-                            {/* <Paper elevation={3}>
-                                <img style={{ width: '100%' }} src={this.state.srcImgFile} alt='原图' />
-                            </Paper> */}
                         </Grid>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} sm={6}>
                         {upload}
                     </Grid>
                 </Grid >
@@ -207,7 +217,11 @@ class IndexPage extends Component<uploadProps, uploadState> {
         }
         return (
             <div style={{ marginTop: 100 }}>
-
+                <Snackbar open={this.state.showAlert} autoHideDuration={6000} onClose={this.handleClose}>
+                    <MuiAlert elevation={6} variant="filled" severity="info" >
+                        请选择抠图类型
+                    </MuiAlert>
+                </Snackbar>
                 <Grid container justify="center">
                     <Card variant="outlined">
                         <div style={{ padding: '4rem 2rem', backgroundColor: 'rgba(180, 120, 118, 0.2)' }}>
@@ -223,7 +237,6 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                 点击上传图片选择想要处理的图片(.jpeg/.png格式). 目前仅支持处理带有人像的图片
                             </Typography>
 
-
                             <Grid container justify="center" style={{ marginTop: 30 }}>
                                 <Button variant="contained" color="primary" startIcon={<CloudUploadIcon />} onClick={this._openFileDialog} >
                                     上传图片
@@ -234,12 +247,29 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     </Card>
                 </Grid>
 
+                <div style={{ marginTop: 30 }}>
+                    <Grid container spacing={3} justify="center">
+                        <Grid item xs={2}>
+                            <Button variant="outlined" color="primary" disabled={this.state.disabled}>
+                                抠人像
+                            </Button>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button variant="outlined" color="primary" disabled={this.state.disabled}>
+                                去除背景
+                            </Button>
+                        </Grid>
+                        {/* <Grid item xs={2}>
+                            xxx
+                                </Grid> */}
+                    </Grid>
+                </div>
 
                 <div style={{ margin: 50 }}>
                     {imgDiv}
                 </div>
 
-            </div>
+            </div >
         )
     }
 }
