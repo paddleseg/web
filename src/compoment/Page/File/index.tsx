@@ -157,7 +157,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
             )
         } else {
             // console.log(this.props.prediction)
-            console.log(this.props.prediction.length > 0)
+            // console.log(this.props.prediction.length > 0)
             if (this.props.prediction.length > 0) {
                 this.state.progress = 0
                 this.state.buffer = 0
@@ -170,7 +170,6 @@ class IndexPage extends Component<uploadProps, uploadState> {
                             <CardHeader
                                 action={
                                     <IconButton aria-label="download">
-                                        {/* <GetAppIcon onClick={this.download} /> */}
                                         <GetAppIcon onClick={this.download} />
                                     </IconButton>
                                 }
@@ -179,7 +178,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                             <CardMedia
                                 component="img"
                                 alt="预测图"
-                                image={this.props.prediction + '-ai_seg'}
+                                image={this.props.prediction}
                                 title="预测图"
                             />
                             <CardContent>
