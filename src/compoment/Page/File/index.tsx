@@ -144,7 +144,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         <CardMedia
                             component="img"
                             alt="预测图"
-                            image={this.props.prediction}
+                            image={this.props.prediction + '-ai_seg'}
                             title="预测图"
                         />
                         <CardContent>

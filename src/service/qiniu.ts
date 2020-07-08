@@ -10,7 +10,7 @@ export function downFile(url: string, name: string) {
 }
 
 export function tellServerFileName(name: string) {
-    return axios.post(httpvariable.CDNFILENAME, name)
+    return axios.post(httpvariable.CDNFILENAME + 'custom', name)
 }
 
 export function getAuploadToken() {
@@ -22,21 +22,29 @@ export function getPredictionFile(src: string) {
 }
 
 export function uploadFileToQiNiu(file: File, key: string, token: string,) {
-    const observable = qiniu.upload(file, key, token, {}, {
-        useCdnDomain: true,
-        region: qiniu.region.z1,
-        checkByMD5: true,
+    qiniu.compressImage(file, {
+        quality: 0.8,
+        noCompressIfLarger: true,
+        maxWidth: 1024,
+        maxHeight: 800,
+    }).then(data => {
+        const observable = qiniu.upload(<File>data.dist, key, token, {}, {
+            useCdnDomain: true,
+            region: qiniu.region.z1,
+            checkByMD5: true,
+        })
+        observable.subscribe({
+            next(res) {
+                console.log(res)
+            },
+            error(err) {
+                console.log(err)
+            },
+            complete(res) {
+                console.log(res)
+            }
+        })
     })
-    observable.subscribe({
-        next(res) {
-            console.log(res)
-        },
-        error(err) {
-            console.log(err)
-        },
-        complete(res) {
-            console.log(res)
-        }
-    }) // 上传开始
+    // 上传开始
 
 }
