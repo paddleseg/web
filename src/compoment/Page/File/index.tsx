@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
 import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardActionArea, CardActions, CardHeader, IconButton, Snackbar } from '@material-ui/core'
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import MuiAlert from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -11,9 +11,10 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import 'fontsource-roboto'
 
 import { uploadFile, downfileFromCDN } from '../../../redux/upload';
+import { CLASSIC_MODEL, CUSTOM_MODEL } from '../../../utils/http';
 
 interface uploadProps {
-    onUpload: (file: File, key: string) => void
+    onUpload: (file: File, key: string, model: string) => void
     onDownload: (url: string, file: string) => void
     uploading: boolean,
     prediction: string
@@ -26,10 +27,12 @@ interface uploadState {
     buffer: number
     disabled: boolean
     showAlert: boolean
+    names: string[],
 }
 
 
 var interval: NodeJS.Timeout;
+var f: File;
 // 首页文件上传
 class IndexPage extends Component<uploadProps, uploadState> {
 
@@ -42,6 +45,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         buffer: 0,
         disabled: true,
         showAlert: false,
+        names: [],
         // interval: setInterval(() => this.tick(), 1000)
     }
 
@@ -100,11 +104,10 @@ class IndexPage extends Component<uploadProps, uploadState> {
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]); // read file as data url
 
-            let f = event.target.files[0]
+            f = event.target.files[0]
             let names = f.name.split('.')
-            // let name = names[0] + '_' + (new Date().getTime()) + '.' + names[1]
-            let d = new Date()
-            let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
+            // let d = new Date()
+            // let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
 
             // console.log(name)
             reader.onload = (event: any) => { // called once readAsDataURL is completed
@@ -116,19 +119,36 @@ class IndexPage extends Component<uploadProps, uploadState> {
 
             this.setState({
                 disabled: false,
-                showAlert: true
+                showAlert: true,
+                names: names,
             })
 
-            // this.props.onUpload(event.target.files[0], name)
-            // interval = setInterval(() => this.tick(), 1000);
+
         }
 
     };
+
+    classicModel = () => {
+        let d = new Date()
+        let names = this.state.names
+        let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
+        this.props.onUpload(f, name, CLASSIC_MODEL)
+        interval = setInterval(() => this.tick(), 1000);
+    }
+
+    customModel = () => {
+        let d = new Date()
+        let names = this.state.names
+        let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
+        this.props.onUpload(f, name, CUSTOM_MODEL)
+        interval = setInterval(() => this.tick(), 1000);
+    }
 
     render() {
         let imgDiv;
         let upload;
 
+        console.log(this.props)
         if (this.props.uploading) {
             upload = (
                 <div style={{ marginTop: '30%' }}>
@@ -136,44 +156,47 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 </div>
             )
         } else {
-            if (this.props.prediction) {
+            // console.log(this.props.prediction)
+            console.log(this.props.prediction.length > 0)
+            if (this.props.prediction.length > 0) {
                 this.state.progress = 0
                 this.state.buffer = 0
                 clearInterval(interval)
-            }
-            upload = (
-                <Grid container justify="flex-start">
-                    <Card>
 
-                        <CardHeader
-                            action={
-                                <IconButton aria-label="download">
-                                    {/* <GetAppIcon onClick={this.download} /> */}
-                                    <GetAppIcon onClick={this.download} />
-                                </IconButton>
-                            }
+                upload = (
+                    <Grid container justify="flex-start">
+                        <Card>
 
-                        />
-                        <CardMedia
-                            component="img"
-                            alt="预测图"
-                            image={this.props.prediction + '-ai_seg'}
-                            title="预测图"
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h3" component="h2">
-                                预测图
+                            <CardHeader
+                                action={
+                                    <IconButton aria-label="download">
+                                        {/* <GetAppIcon onClick={this.download} /> */}
+                                        <GetAppIcon onClick={this.download} />
+                                    </IconButton>
+                                }
+
+                            />
+                            <CardMedia
+                                component="img"
+                                alt="预测图"
+                                image={this.props.prediction + '-ai_seg'}
+                                title="预测图"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h3" component="h2">
+                                    预测图
                                 </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                图片背景已设置为透明背景,可点击右侧按钮完成下载
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    图片背景已设置为透明背景,可点击右侧按钮完成下载
                                 </Typography>
-                        </CardContent>
-                    </Card>
-                    {/* <Paper elevation={3}>
+                            </CardContent>
+                        </Card>
+                        {/* <Paper elevation={3}>
                         <img style={{ width: '100%' }} src={this.props.prediction} alt='预测图片' />
                     </Paper> */}
-                </Grid>
-            )
+                    </Grid>
+                )
+            }
         }
         if (this.state.showImg) {
             imgDiv = (
@@ -181,7 +204,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     direction="row"
                     justify="center"
                     alignItems="baseline" spacing={1} >
-                    <Grid item xs={3} sm={6}>
+                    <Grid item xs={12} sm={6} >
                         <Grid container justify="flex-end">
                             <Card>
                                 <CardHeader
@@ -209,7 +232,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                             </Card>
                         </Grid>
                     </Grid>
-                    <Grid item xs={3} sm={6}>
+                    <Grid item xs={12} sm={6}>
                         {upload}
                     </Grid>
                 </Grid >
@@ -248,14 +271,14 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 </Grid>
 
                 <div style={{ marginTop: 30 }}>
-                    <Grid container spacing={3} justify="center">
-                        <Grid item xs={2}>
-                            <Button variant="outlined" color="primary" disabled={this.state.disabled}>
+                    <Grid container spacing={1} justify="center">
+                        <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
+                            <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
                                 抠人像
                             </Button>
                         </Grid>
-                        <Grid item xs={2}>
-                            <Button variant="outlined" color="primary" disabled={this.state.disabled}>
+                        <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
+                            <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
                                 去除背景
                             </Button>
                         </Grid>

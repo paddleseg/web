@@ -31,7 +31,7 @@ export function downfileFromCDN(url: string, file: string) {
     }
 }
 
-export function uploadFile(file: File, key: string) {
+export function uploadFile(file: File, key: string, model: string) {
     return async (dispath: Dispatch) => {
         // 标记上传开始
         dispath({
@@ -44,7 +44,7 @@ export function uploadFile(file: File, key: string) {
             getAuploadToken().then(async e => {
                 // console.log(e.data)
                 await uploadFileToQiNiu(file, key, e.data)
-                tellServerFileName(key).then(e => {
+                tellServerFileName(key, model).then(e => {
                     dispath({
                         type: UPLOAD_FILE_TO_QINIU,
                     })

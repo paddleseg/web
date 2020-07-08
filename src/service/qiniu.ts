@@ -9,8 +9,8 @@ export function downFile(url: string, name: string) {
     })
 }
 
-export function tellServerFileName(name: string) {
-    return axios.post(httpvariable.CDNFILENAME + 'custom', name)
+export function tellServerFileName(name: string, model: string) {
+    return axios.post(httpvariable.CDNFILENAME + model, name)
 }
 
 export function getAuploadToken() {
