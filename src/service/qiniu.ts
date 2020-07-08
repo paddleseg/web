@@ -28,14 +28,16 @@ export function uploadFileToQiNiu(file: File, key: string, token: string,) {
         // maxWidth: 1024,
         // maxHeight: 800,
     }).then(data => {
+
         const observable = qiniu.upload(<File>data.dist, key, token, {}, {
             useCdnDomain: true,
             region: qiniu.region.z1,
             checkByMD5: true,
         })
+
         observable.subscribe({
             next(res) {
-                console.log(res)
+                console.log(res.uploadInfo?.url)
             },
             error(err) {
                 console.log(err)
