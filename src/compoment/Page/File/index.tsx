@@ -144,8 +144,19 @@ class IndexPage extends Component<uploadProps, uploadState> {
     render() {
         let imgDiv;
         let upload;
+        let cloudFileAlert;
 
-
+        if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            cloudFileAlert = (
+                <div style={{ textAlign: 'center' }}>
+                    <Typography variant="subtitle1" gutterBottom color='inherit'>
+                        不支持读取云盘文件(例如icloud),请使用本地相册文件
+                    </Typography>
+                </div>
+            )
+        } else {
+            cloudFileAlert = (<div></div>)
+        }
         if (this.props.uploading) {
             upload = (
                 <div style={{ marginTop: '30%' }}>
@@ -268,10 +279,9 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                                 目前仅支持处理带有人像的图片
                                         </Typography>
                                         </div>
+                                        {cloudFileAlert}
                                     </div>
                                 </Grid>
-
-
 
                             </Grid>
 
@@ -281,6 +291,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                 </Button>
                                 <input id="myInput" onChange={this.handleChange} type="file" ref="fileUpload" style={{ display: 'none' }} />
                             </Grid>
+
                         </div>
                     </Grid>
                 </Paper>
