@@ -30,13 +30,10 @@ interface uploadState {
     names: string[],
 }
 
-
 var interval: NodeJS.Timeout;
 var f: File;
 // 首页文件上传
 class IndexPage extends Component<uploadProps, uploadState> {
-
-
 
     state = {
         showImg: false,
@@ -148,7 +145,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         let imgDiv;
         let upload;
 
-        console.log(this.props)
+
         if (this.props.uploading) {
             upload = (
                 <div style={{ marginTop: '30%' }}>
@@ -165,7 +162,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
 
                 upload = (
                     <Grid container justify="flex-start">
-                        <Card>
+                        <Card style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
 
                             <CardHeader
                                 action={
@@ -205,7 +202,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     alignItems="baseline" spacing={1} >
                     <Grid item xs={12} sm={6} >
                         <Grid container justify="flex-end">
-                            <Card>
+                            <Card style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
                                 <CardHeader
                                     action={
                                         <IconButton aria-label="settings">
