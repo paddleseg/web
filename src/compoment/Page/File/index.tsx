@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardActionArea, CardActions, CardHeader, IconButton, Snackbar } from '@material-ui/core'
+import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardActionArea, CardActions, CardHeader, IconButton, Snackbar, Paper } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -202,7 +202,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     alignItems="baseline" spacing={1} >
                     <Grid item xs={12} sm={6} >
                         <Grid container justify="flex-end">
-                            <Card style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
+                            <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
                                 <CardHeader
                                     action={
                                         <IconButton aria-label="settings">
@@ -235,26 +235,35 @@ class IndexPage extends Component<uploadProps, uploadState> {
             )
         }
         return (
+
             <div style={{ marginTop: 100 }}>
                 <Snackbar open={this.state.showAlert} autoHideDuration={6000} onClose={this.handleClose}>
                     <MuiAlert elevation={6} variant="filled" severity="info" >
                         请选择抠图类型
                     </MuiAlert>
                 </Snackbar>
-                <Grid container justify="center">
-                    <Card variant="outlined">
-                        <div style={{ padding: '4rem 2rem', backgroundColor: 'rgba(180, 120, 118, 0.2)' }}>
+                <Paper style={{ backgroundColor: '#7C9EC5' }}>
+                    <Grid container justify="center">
+                        <div style={{ padding: '4rem 2rem', backgroundColor: '#7C9EC5', color: '#ffffff' }}>
                             <Grid container justify="center">
-                                <div style={{ maxWidth: 500 }}>
-                                    <Typography variant="h1" component="h2" gutterBottom>
-                                        自动抠图
-                                </Typography>
-                                </div>
-                            </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <img src='ai-icon.svg'></img>
+                                    </div>
 
-                            <Typography variant="subtitle1" gutterBottom>
-                                点击上传图片选择想要处理的图片(.jpeg/.png格式). 目前仅支持处理带有人像的图片
-                            </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={6} >
+                                    <Typography variant="h1" component="h1" gutterBottom color='inherit' style={{ marginTop: '10%', fontSize: 90 }}>
+                                        AI抠图
+                                    </Typography>
+                                    <div style={{ marginTop: '10%' }}>
+                                        <Typography variant="subtitle1" gutterBottom color='inherit'>
+                                            点击上传图片选择想要处理的图片(.jpeg/.png格式). 目前仅支持处理带有人像的图片
+                                    </Typography>
+                                    </div>
+                                </Grid>
+
+                            </Grid>
 
                             <Grid container justify="center" style={{ marginTop: 30 }}>
                                 <Button variant="contained" color="primary" startIcon={<CloudUploadIcon />} onClick={this._openFileDialog} >
@@ -263,9 +272,8 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                 <input id="myInput" onChange={this.handleChange} type="file" ref="fileUpload" style={{ display: 'none' }} />
                             </Grid>
                         </div>
-                    </Card>
-                </Grid>
-
+                    </Grid>
+                </Paper>
                 <div style={{ marginTop: 30 }}>
                     <Grid container spacing={1} justify="center">
                         <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
@@ -275,7 +283,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         </Grid>
                         <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
                             <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
-                                去除背景
+                                去背景
                             </Button>
                         </Grid>
                         {/* <Grid item xs={2}>
@@ -284,10 +292,10 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     </Grid>
                 </div>
 
+
                 <div style={{ margin: 50 }}>
                     {imgDiv}
                 </div>
-
             </div >
         )
     }

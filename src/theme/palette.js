@@ -33,7 +33,7 @@ export default {
   icon: colors.blueGrey[600],
   background: {
     default: '#F4F6F8',
-    paper: white
+    paper: white,
   },
   divider: colors.grey[200]
 };
