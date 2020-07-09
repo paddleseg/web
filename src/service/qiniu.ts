@@ -30,13 +30,13 @@ export function uploadFileToQiNiu(file: File, key: string, token: string,) {
 
     observable.subscribe({
         next(res) {
-            console.log(res.uploadInfo?.url)
+            // console.log(res.uploadInfo?.url)
         },
         error(err) {
             console.log(err)
         },
         complete(res) {
-            console.log(res)
+            // console.log(res)
         }
     })
     // qiniu.compressImage(file, {

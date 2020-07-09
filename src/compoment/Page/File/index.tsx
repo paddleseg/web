@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardHeader, IconButton, Snackbar, Paper } from '@material-ui/core'
+import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardHeader, IconButton, Snackbar, Paper, Zoom, Tooltip } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -153,85 +153,88 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 </div>
             )
         } else {
-            // console.log(this.props.prediction)
-            // console.log(this.props.prediction.length > 0)
+
             if (this.props.prediction.length > 0) {
                 this.state.progress = 0
                 this.state.buffer = 0
                 clearInterval(interval)
 
                 upload = (
-                    <Grid container justify="flex-start">
-                        <Card style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
+                    <Zoom in={true} style={{ transitionDelay: '500ms' }}>
+                        <Grid container justify="flex-start">
+                            <Card style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
 
-                            <CardHeader
-                                action={
-                                    <IconButton aria-label="download">
-                                        <GetAppIcon onClick={this.download} />
-                                    </IconButton>
-                                }
+                                <CardHeader
+                                    action={
+                                        <IconButton aria-label="download">
+                                            <GetAppIcon onClick={this.download} />
+                                        </IconButton>
+                                    }
 
-                            />
-                            <CardMedia
-                                component="img"
-                                alt="预测图"
-                                image={this.props.prediction}
-                                title="预测图"
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h3" component="h2">
-                                    预测图
+                                />
+                                <CardMedia
+                                    component="img"
+                                    alt="预测图"
+                                    image={this.props.prediction}
+                                    title="预测图"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h3" component="h2">
+                                        预测图
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    图片背景已设置为透明背景,可点击右侧按钮完成下载
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        图片背景已设置为透明背景,可点击右侧按钮完成下载
                                 </Typography>
-                            </CardContent>
-                        </Card>
-                        {/* <Paper elevation={3}>
+                                </CardContent>
+                            </Card>
+                            {/* <Paper elevation={3}>
                         <img style={{ width: '100%' }} src={this.props.prediction} alt='预测图片' />
                     </Paper> */}
-                    </Grid>
+                        </Grid>
+                    </Zoom>
                 )
             }
         }
         if (this.state.showImg) {
             imgDiv = (
-                <Grid container
-                    direction="row"
-                    justify="center"
-                    alignItems="baseline" spacing={1} >
-                    <Grid item xs={12} sm={6} >
-                        <Grid container justify="flex-end">
-                            <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
-                                <CardHeader
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <FavoriteBorderIcon />
-                                        </IconButton>
-                                    }
-                                />
-                                <CardMedia
-                                    component="img"
-                                    alt="原图"
-                                    image={this.state.srcImgFile}
-                                    title="原图"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h3" component="h2">
-                                        原图
+                <Zoom in={true} style={{ transitionDelay: '500ms' }}>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="baseline" spacing={1} >
+                        <Grid item xs={12} sm={6} >
+                            <Grid container justify="flex-end">
+                                <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
+                                    <CardHeader
+                                        action={
+                                            <IconButton aria-label="settings">
+                                                <FavoriteBorderIcon />
+                                            </IconButton>
+                                        }
+                                    />
+                                    <CardMedia
+                                        component="img"
+                                        alt="原图"
+                                        image={this.state.srcImgFile}
+                                        title="原图"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h3" component="h2">
+                                            原图
                                         </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        为了提高深度学习质量，您的图片将会被作为学习数据集的一部分
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            为了提高深度学习质量，您的图片将会被作为学习数据集的一部分
                                         </Typography>
-                                </CardContent>
+                                    </CardContent>
 
-                            </Card>
+                                </Card>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        {upload}
-                    </Grid>
-                </Grid >
+                        <Grid item xs={12} sm={6}>
+                            {upload}
+                        </Grid>
+                    </Grid >
+                </Zoom>
             )
         }
         return (
@@ -284,21 +287,24 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 <div style={{ marginTop: 30 }}>
                     <Grid container spacing={1} justify="center">
                         <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
-                            <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
-                                抠人像
-                            </Button>
+                            <Tooltip title="从图片中找到属于人体的部分,并去除其它元素">
+                                <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
+                                    抠人像
+                                </Button>
+                            </Tooltip>
                         </Grid>
                         <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
-                            <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
-                                去背景
-                            </Button>
+                            <Tooltip title="从图片中找到属于人体范围内的元素,并去除背景元素">
+                                <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
+                                    去背景
+                                </Button>
+                            </Tooltip>
                         </Grid>
                         {/* <Grid item xs={2}>
                             xxx
                                 </Grid> */}
                     </Grid>
                 </div>
-
 
                 <div style={{ margin: 50 }}>
                     {imgDiv}
