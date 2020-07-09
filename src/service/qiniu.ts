@@ -22,31 +22,48 @@ export function getPredictionFile(src: string) {
 }
 
 export function uploadFileToQiNiu(file: File, key: string, token: string,) {
-    qiniu.compressImage(file, {
-        quality: 0.5,
-        noCompressIfLarger: true,
-        // maxWidth: 1024,
-        // maxHeight: 800,
-    }).then(data => {
-
-        const observable = qiniu.upload(<File>data.dist, key, token, {}, {
-            useCdnDomain: true,
-            region: qiniu.region.z1,
-            checkByMD5: true,
-        })
-
-        observable.subscribe({
-            next(res) {
-                console.log(res.uploadInfo?.url)
-            },
-            error(err) {
-                console.log(err)
-            },
-            complete(res) {
-                console.log(res)
-            }
-        })
+    const observable = qiniu.upload(file, key, token, {}, {
+        useCdnDomain: true,
+        region: qiniu.region.z1,
+        checkByMD5: true,
     })
+
+    observable.subscribe({
+        next(res) {
+            console.log(res.uploadInfo?.url)
+        },
+        error(err) {
+            console.log(err)
+        },
+        complete(res) {
+            console.log(res)
+        }
+    })
+    // qiniu.compressImage(file, {
+    //     quality: 0.5,
+    //     noCompressIfLarger: true,
+    //     // maxWidth: 1024,
+    //     // maxHeight: 800,
+    // }).then(data => {
+
+    //     const observable = qiniu.upload(<File>data.dist, key, token, {}, {
+    //         useCdnDomain: true,
+    //         region: qiniu.region.z1,
+    //         checkByMD5: true,
+    //     })
+
+    //     observable.subscribe({
+    //         next(res) {
+    //             console.log(res.uploadInfo?.url)
+    //         },
+    //         error(err) {
+    //             console.log(err)
+    //         },
+    //         complete(res) {
+    //             console.log(res)
+    //         }
+    //     })
+    // })
     // 上传开始
 
 }
