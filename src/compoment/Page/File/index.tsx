@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardActionArea, CardActions, CardHeader, IconButton, Snackbar, Paper } from '@material-ui/core'
+import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardHeader, IconButton, Snackbar, Paper } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -243,25 +243,32 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     </MuiAlert>
                 </Snackbar>
                 <Paper style={{ backgroundColor: '#7C9EC5' }}>
-                    <Grid container justify="center">
+                    <Grid container justify="center" spacing={3}>
                         <div style={{ padding: '4rem 2rem', backgroundColor: '#7C9EC5', color: '#ffffff' }}>
-                            <Grid container justify="center">
-                                <Grid item xs={12} sm={6}>
+                            <Grid container>
+                                <Grid item xs={12} sm={3}>
                                     <div style={{ textAlign: 'center' }}>
                                         <img src='ai-icon.svg'></img>
                                     </div>
-
                                 </Grid>
-                                <Grid item xs={12} sm={6} >
-                                    <Typography variant="h1" component="h1" gutterBottom color='inherit' style={{ marginTop: '10%', fontSize: 90 }}>
-                                        AI抠图
-                                    </Typography>
-                                    <div style={{ marginTop: '10%' }}>
-                                        <Typography variant="subtitle1" gutterBottom color='inherit'>
-                                            点击上传图片选择想要处理的图片(.jpeg/.png格式). 目前仅支持处理带有人像的图片
-                                    </Typography>
+
+                                <Grid item xs={12} sm={9} >
+                                    <div style={{ textAlign: 'center' }}>
+                                        <Typography variant="h1" component="h1" gutterBottom color='inherit' style={{ marginTop: '10%', fontSize: 90, width: '100%' }}>
+                                            AI抠图
+                                        </Typography>
+                                        <div style={{ marginTop: '10%', textAlign: 'left' }}>
+                                            <Typography variant="subtitle1" gutterBottom color='inherit'>
+                                                点击上传图片选择想要处理的图片(.jpeg/.png格式)
+                                            </Typography>
+                                            <Typography variant="subtitle1" gutterBottom color='inherit'>
+                                                目前仅支持处理带有人像的图片
+                                        </Typography>
+                                        </div>
                                     </div>
                                 </Grid>
+
+
 
                             </Grid>
 
