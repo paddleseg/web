@@ -27,6 +27,7 @@ interface uploadState {
     buffer: number
     disabled: boolean
     showAlert: boolean
+    fileSizeTooLarge: boolean
     names: string[],
 }
 
@@ -42,6 +43,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         buffer: 0,
         disabled: true,
         showAlert: false,
+        fileSizeTooLarge: false,
         names: [],
         // interval: setInterval(() => this.tick(), 1000)
     }
@@ -102,23 +104,31 @@ class IndexPage extends Component<uploadProps, uploadState> {
             reader.readAsDataURL(event.target.files[0]); // read file as data url
 
             f = event.target.files[0]
-            let names = f.name.split('.')
-            // let d = new Date()
-            // let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
-
-            // console.log(name)
-            reader.onload = (event: any) => { // called once readAsDataURL is completed
+            if ((f.size / 1000 / 1000) > 2) {
                 this.setState({
-                    showImg: true,
-                    srcImgFile: event.target.result,
+                    fileSizeTooLarge: true
+                })
+            } else {
+                let names = f.name.split('.')
+                // let d = new Date()
+                // let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
+
+                // console.log(name)
+                reader.onload = (event: any) => { // called once readAsDataURL is completed
+                    this.setState({
+                        showImg: true,
+                        srcImgFile: event.target.result,
+                    })
+                }
+
+                this.setState({
+                    disabled: false,
+                    showAlert: true,
+                    names: names,
+                    fileSizeTooLarge: false,
                 })
             }
 
-            this.setState({
-                disabled: false,
-                showAlert: true,
-                names: names,
-            })
 
 
         }
@@ -171,7 +181,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 clearInterval(interval)
 
                 upload = (
-                    <Zoom in={true} style={{ transitionDelay: '500ms' }}>
+                    <Zoom in={true} style={{ transitionDelay: '50ms' }}>
                         <Grid container justify="flex-start">
                             <Card style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
 
@@ -256,6 +266,11 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         请选择抠图类型
                     </MuiAlert>
                 </Snackbar>
+                <Snackbar open={this.state.fileSizeTooLarge} autoHideDuration={6000} onClose={this.handleClose}>
+                    <MuiAlert elevation={6} variant="filled" severity="error" >
+                        暂不支持超过2M的图片!
+                    </MuiAlert>
+                </Snackbar>
                 <Paper style={{ backgroundColor: '#7C9EC5' }}>
                     <Grid container justify="center" spacing={3}>
                         <div style={{ padding: '4rem 2rem', backgroundColor: '#7C9EC5', color: '#ffffff' }}>
@@ -289,7 +304,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                 <Button variant="contained" color="primary" startIcon={<CloudUploadIcon />} onClick={this._openFileDialog} >
                                     上传图片
                                 </Button>
-                                <input id="myInput" onChange={this.handleChange} type="file" ref="fileUpload" style={{ display: 'none' }} />
+                                <input id="myInput" onChange={this.handleChange} type="file" ref="fileUpload" style={{ display: 'none' }} accept=".jpg,.jpeg,.png" />
                             </Grid>
 
                         </div>
