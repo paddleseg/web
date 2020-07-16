@@ -219,44 +219,56 @@ class IndexPage extends Component<uploadProps, uploadState> {
         }
         if (this.state.showImg) {
             imgDiv = (
-                <Zoom in={true} style={{ transitionDelay: '500ms' }}>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="baseline" spacing={1} >
-                        <Grid item xs={12} sm={6} >
-                            <Grid container justify="flex-end">
-                                <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
-                                    <CardHeader
-                                        action={
-                                            <IconButton aria-label="settings">
-                                                <FavoriteBorderIcon />
-                                            </IconButton>
-                                        }
-                                    />
-                                    <CardMedia
-                                        component="img"
-                                        alt="原图"
-                                        image={this.state.srcImgFile}
-                                        title="原图"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h3" component="h2">
-                                            原图
+                <div>
+                    <Zoom in={true} style={{ transitionDelay: '500ms' }}>
+                        <Grid container
+                            direction="row"
+                            justify="center"
+                            alignItems="baseline" spacing={1} >
+                            <Grid item xs={12} sm={6} >
+                                <Grid container justify="flex-end">
+                                    <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
+                                        <CardHeader
+                                            action={
+                                                <IconButton aria-label="settings">
+                                                    <FavoriteBorderIcon />
+                                                </IconButton>
+                                            }
+                                        />
+                                        <CardMedia
+                                            component="img"
+                                            alt="原图"
+                                            image={this.state.srcImgFile}
+                                            title="原图"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h3" component="h2">
+                                                原图
                                         </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            为了提高深度学习质量，您的图片将会被作为学习数据集的一部分
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                为了提高深度学习质量，您的图片将会被作为学习数据集的一部分
                                         </Typography>
-                                    </CardContent>
+                                        </CardContent>
 
-                                </Card>
+                                    </Card>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            {upload}
-                        </Grid>
-                    </Grid >
-                </Zoom>
+                            <Grid item xs={12} sm={6}>
+                                {upload}
+                            </Grid>
+                        </Grid >
+                    </Zoom>
+                    <div className='w' >
+                        <div className='winBody'>
+                            <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
+                        </div>
+                        <div className='t'>
+                            <Typography component="p" variant="body2" gutterBottom align='left'>
+                                遇到问题可扫描添加好友反馈
+                        </Typography>
+                        </div>
+                    </div>
+                </div>
             )
         }
         return (
@@ -281,7 +293,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                     </div>
                                 </Grid>
 
-                                {/* <Grid item xs={12} sm={9} >
+                                <Grid item xs={12} sm={9} >
                                     <div style={{ textAlign: 'center' }}>
                                         <Typography variant="h1" component="h1" gutterBottom color='inherit' style={{ marginTop: '10%', fontSize: 90, width: '100%' }}>
                                             AI抠图
@@ -296,7 +308,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                         </div>
                                         {cloudFileAlert}
                                     </div>
-                                </Grid> */}
+                                </Grid>
 
                             </Grid>
 
@@ -341,20 +353,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 <div style={{ margin: 50 }}>
                     {imgDiv}
                 </div>
-                <div className='w'>
-                    <div className='winBody'>
-                        <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
-                    </div>
-                    <div className='t'>
-                        <Typography variant="body2" gutterBottom align='left'>
-                            遇到问题请扫描
-                        </Typography>
-                        <Typography variant="body2" gutterBottom align='left'>
-                            请添加好友反馈
-                        </Typography>
 
-                    </div>
-                </div>
             </div >
         )
     }

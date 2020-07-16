@@ -28,18 +28,29 @@
     padding: 0px 10px;
  }
 
- .w {
+ .w{
+   position:absolute;
+   right:10px;
+   bottom:10px;
+   width:100px;
+   height:240px;
+   overflow:hidden;
+   border:0px groove #281;
+   cursor:default;
+   -moz-user-select:none;
+ }
+ /* .w {
     position: relative;
-    /* right: 10px; */
+    right: 10px;
     left: 10px;
-    bottom: 30px;
+    bottom: 100px;
     width: 100px;
     height: 200px;
-    overflow: auto;
+    overflow: hidden;
     border: 0px groove white;
     cursor: default;
     -moz-user-select: none;
- }
+ } */
 
  .t {
     line-height: 0px;
