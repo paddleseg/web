@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardHeader, IconButton, Snackbar, Paper, Zoom, Tooltip } from '@material-ui/core'
+import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardHeader, IconButton, Snackbar, Paper, Zoom, Tooltip, Fab, CardActionArea } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
-
+import Image from 'material-ui-image';
 import 'fontsource-roboto'
+import './index.css'
 
 import { uploadFile, downfileFromCDN } from '../../../redux/upload';
 import { CLASSIC_MODEL, CUSTOM_MODEL } from '../../../utils/http';
@@ -259,7 +260,6 @@ class IndexPage extends Component<uploadProps, uploadState> {
             )
         }
         return (
-
             <div style={{ marginTop: 100 }}>
                 <Snackbar open={this.state.showAlert} autoHideDuration={6000} onClose={this.handleClose}>
                     <MuiAlert elevation={6} variant="filled" severity="info" >
@@ -281,7 +281,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                     </div>
                                 </Grid>
 
-                                <Grid item xs={12} sm={9} >
+                                {/* <Grid item xs={12} sm={9} >
                                     <div style={{ textAlign: 'center' }}>
                                         <Typography variant="h1" component="h1" gutterBottom color='inherit' style={{ marginTop: '10%', fontSize: 90, width: '100%' }}>
                                             AI抠图
@@ -296,7 +296,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                         </div>
                                         {cloudFileAlert}
                                     </div>
-                                </Grid>
+                                </Grid> */}
 
                             </Grid>
 
@@ -311,29 +311,49 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     </Grid>
                 </Paper>
                 <div style={{ marginTop: 30 }}>
-                    <Grid container spacing={1} justify="center">
-                        <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
+                    <Grid container spacing={1} >
+
+                        {/* <Grid item xs={12} sm={6} >
+                            <div style={{ textAlign: 'center' }} >
+                                <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
+                            </div>
+                        </Grid> */}
+
+                        <Grid item xs={6} sm={6} style={{ textAlign: 'center' }}>
                             <Tooltip title="从图片中找到属于人体的部分,并去除其它元素">
                                 <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
                                     抠人像
                                 </Button>
                             </Tooltip>
                         </Grid>
-                        <Grid item xs={6} sm={3} style={{ textAlign: 'center' }}>
+                        <Grid item xs={6} sm={6} style={{ textAlign: 'center' }}>
                             <Tooltip title="从图片中找到属于人体范围内的元素,并去除背景元素">
                                 <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
                                     去背景
                                 </Button>
                             </Tooltip>
                         </Grid>
-                        {/* <Grid item xs={2}>
-                            xxx
-                                </Grid> */}
+
+
                     </Grid>
                 </div>
 
                 <div style={{ margin: 50 }}>
                     {imgDiv}
+                </div>
+                <div className='w'>
+                    <div className='winBody'>
+                        <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
+                    </div>
+                    <div className='t'>
+                        <Typography variant="body2" gutterBottom align='left'>
+                            遇到问题请扫描
+                        </Typography>
+                        <Typography variant="body2" gutterBottom align='left'>
+                            请添加好友反馈
+                        </Typography>
+
+                    </div>
                 </div>
             </div >
         )

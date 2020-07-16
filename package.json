@@ -31,6 +31,7 @@
     "fontsource-roboto": "^2.1.4",
     "google-protobuf": "^3.11.2",
     "grpc-web": "^1.0.7",
+    "material-ui-image": "^3.2.3",
     "monaco-editor": "^0.19.3",
     "monaco-editor-webpack-plugin": "^1.8.2",
     "qiniu-js": "^3.0.3",

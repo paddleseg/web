@@ -1,0 +1,77 @@
+* {
+    font-size: 12px;
+    font-family: Verdana, 宋体;
+ }
+/*
+ html,
+ body {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+ } */
+
+ .b {
+    margin: 0px;
+    padding: 0px;
+    overflow: auto;
+ }
+
+ .line0 {
+    line-height: 20px;
+    background-color: white;
+    padding: 0px 15px;
+ }
+
+ .line1 {
+    line-height: 18px;
+    background-color: white;
+    padding: 0px 10px;
+ }
+
+ .w {
+    position: relative;
+    /* right: 10px; */
+    left: 10px;
+    bottom: 30px;
+    width: 100px;
+    height: 200px;
+    overflow: auto;
+    border: 0px groove white;
+    cursor: default;
+    -moz-user-select: none;
+ }
+
+ .t {
+    line-height: 0px;
+    height: 50px;
+    /* width: 160px; */
+    overflow: visible;
+    background-color: white;
+    /* color: black; */
+    font-weight: bold;
+    border-bottom: 1px outset white;
+    text-align: left;
+
+ }
+ /* .t {
+    line-height: 20px;
+    height: 20px;
+    width: 100px;
+    overflow: hidden;
+    background-color: white;
+    color: white;
+    font-weight: bold;
+    border-bottom: 1px outset white;
+    text-align: left;
+ } */
+
+ .winBody {
+    height: 110px;
+    width: 100px;
+    overflow-x: auto;
+    overflow-y: auto;
+    border-top: 0px inset white;
+    padding: 0px;
+    /* text-indent: 10px; */
+    background-color: white;
+ }
