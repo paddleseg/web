@@ -105,7 +105,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
             reader.readAsDataURL(event.target.files[0]); // read file as data url
 
             f = event.target.files[0]
-            if ((f.size / 1000 / 1000) > 2) {
+            if ((f.size / 1000 / 1000) > 10) {
                 this.setState({
                     fileSizeTooLarge: true
                 })
@@ -280,7 +280,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 </Snackbar>
                 <Snackbar open={this.state.fileSizeTooLarge} autoHideDuration={6000} onClose={this.handleClose}>
                     <MuiAlert elevation={6} variant="filled" severity="error" >
-                        暂不支持超过2M的图片!
+                        暂不支持超过10M的图片!
                     </MuiAlert>
                 </Snackbar>
                 <Paper style={{ backgroundColor: '#7C9EC5' }}>
