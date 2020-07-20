@@ -333,50 +333,59 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         </div>
                     </Grid>
                 </Paper>
-                <Paper elevation={3}>
-                    <div className='countblock' >
-                        <Grid item xs={12} sm={12}>
-                            <Typography component="h1" variant="h1" gutterBottom align='center' >
-                                <CountUp
-                                    start={0}
-                                    end={124}
-                                    duration={1.75}
-                                    prefix="共处理 "
-                                    suffix=" 张图片"
-                                    className='count'
-                                />
-                                <CountUp
-                                    start={0}
-                                    end={500}
-                                    duration={2.75}
-                                    prefix=", 预测 "
-                                    suffix=" 次"
-                                    className='count'
-                                />
-                            </Typography>
-                        </Grid>
-                    </div>
-                </Paper>
-                <Paper elevation={3}>
-                    <div className='menublock'>
-                        <Grid container spacing={1} >
-                            <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
-                                <Tooltip title="从图片中找到属于人体的部分,并去除其它元素">
-                                    <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
-                                        抠人像
+
+                <Grid container spacing={1} direction="row" justify="flex-start" alignItems="center">
+                    <Grid item xs={12} sm={6}>
+                        <Paper elevation={3}>
+                            <div className='countblock' >
+                                <Grid item xs={12} sm={12}>
+                                    <Typography component="h1" variant="h1" gutterBottom align='center' >
+                                        <CountUp
+                                            start={0}
+                                            end={124}
+                                            duration={1.75}
+                                            prefix="共处理 "
+                                            suffix=" 张图片"
+                                            className='count'
+                                        />
+                                        <CountUp
+                                            start={0}
+                                            end={500}
+                                            duration={2.75}
+                                            prefix=" 预测 "
+                                            suffix=" 次"
+                                            className='count'
+                                        />
+                                    </Typography>
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Paper elevation={3}>
+                            <div className='menublock'>
+                                <Grid container spacing={1} >
+                                    <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
+                                        <Tooltip title="从图片中找到属于人体的部分,并去除其它元素">
+                                            <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
+                                                抠人像
                                 </Button>
-                                </Tooltip>
-                            </Grid>
-                            <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
-                                <Tooltip title="从图片中找到属于人体范围内的元素,并去除背景元素">
-                                    <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
-                                        去背景
+                                        </Tooltip>
+                                    </Grid>
+                                    <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
+                                        <Tooltip title="从图片中找到属于人体范围内的元素,并去除背景元素">
+                                            <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
+                                                去背景
                                 </Button>
-                                </Tooltip>
-                            </Grid>
-                        </Grid>
-                    </div>
-                </Paper>
+                                        </Tooltip>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Grid>
+
+
 
                 <div style={{ margin: 50 }}>
                     {imgDiv}
