@@ -285,9 +285,9 @@ class IndexPage extends Component<uploadProps, uploadState> {
                     </MuiAlert>
                 </Snackbar>
 
-                <Paper style={{ backgroundColor: '#7C9EC5' }}>
+                <Paper className='headblock' elevation={3}>
                     <Grid container justify="center" spacing={3}>
-                        <div style={{ padding: '4rem 2rem', backgroundColor: '#7C9EC5', color: '#ffffff' }}>
+                        <div className='headGridBlock'>
                             <Grid container>
                                 <Grid item xs={12} sm={3}>
                                     <div style={{ textAlign: 'center' }}>
@@ -333,7 +333,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         </div>
                     </Grid>
                 </Paper>
-                <Paper elevation={1}>
+                <Paper elevation={3}>
                     <div className='countblock' >
                         <Grid item xs={12} sm={12}>
                             <Typography component="h1" variant="h1" gutterBottom align='center' >
@@ -357,38 +357,30 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         </Grid>
                     </div>
                 </Paper>
-                <div style={{ marginTop: 30 }}>
-                    <Grid container spacing={1} >
-
-                        {/* <Grid item xs={12} sm={6} >
-                            <div style={{ textAlign: 'center' }} >
-                                <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
-                            </div>
-                        </Grid> */}
-
-                        <Grid item xs={6} sm={6} style={{ textAlign: 'center' }}>
-                            <Tooltip title="从图片中找到属于人体的部分,并去除其它元素">
-                                <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
-                                    抠人像
+                <Paper elevation={3}>
+                    <div className='menublock'>
+                        <Grid container spacing={1} >
+                            <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
+                                <Tooltip title="从图片中找到属于人体的部分,并去除其它元素">
+                                    <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
+                                        抠人像
                                 </Button>
-                            </Tooltip>
-                        </Grid>
-                        <Grid item xs={6} sm={6} style={{ textAlign: 'center' }}>
-                            <Tooltip title="从图片中找到属于人体范围内的元素,并去除背景元素">
-                                <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
-                                    去背景
+                                </Tooltip>
+                            </Grid>
+                            <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
+                                <Tooltip title="从图片中找到属于人体范围内的元素,并去除背景元素">
+                                    <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
+                                        去背景
                                 </Button>
-                            </Tooltip>
+                                </Tooltip>
+                            </Grid>
                         </Grid>
-
-
-                    </Grid>
-                </div>
+                    </div>
+                </Paper>
 
                 <div style={{ margin: 50 }}>
                     {imgDiv}
                 </div>
-
             </div >
         )
     }

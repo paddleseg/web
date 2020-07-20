@@ -1,7 +1,18 @@
+.headblock{
+   /* background-color: #7C9EC5; */
+   background-color: white;
+}
+
+.headGridBlock{
+   padding: 4rem 2rem;
+   /* background-color: #7C9EC5; */
+   color: black;
+
+}
 .countblock{
    margin-top: 3rem;
    height: 6rem;
-   background-color: #B7CBE1;
+   /* background-color: #B7CBE1; */
    justify-content: center;
    align-items: center;
    display: -webkit-flex;
@@ -9,10 +20,16 @@
 
 .count {
    font-size: 2.5rem;
-   color: #377dff;
+   /* color: #377dff; */
    /* color: white; */
 }
 
+.menublock{
+   margin-top: 3rem;
+   justify-content: center;
+   align-items: center;
+   display: -webkit-flex;
+}
 * {
     font-size: 12px;
     font-family: Verdana, 宋体;
