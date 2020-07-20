@@ -258,7 +258,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                             </Grid>
                         </Grid >
                     </Zoom>
-                    <div className='w' >
+                    {/* <div className='w' >
                         <div className='winBody'>
                             <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
                         </div>
@@ -267,7 +267,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                 遇到问题可扫描添加好友反馈
                         </Typography>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             )
         }
@@ -311,7 +311,16 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                 </Grid>
 
                             </Grid>
-
+                            <div className='w' >
+                                <div className='winBody'>
+                                    <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
+                                </div>
+                                <div className='t'>
+                                    <Typography component="p" variant="body2" gutterBottom align='left'>
+                                        遇到问题可扫描添加好友反馈
+                                    </Typography>
+                                </div>
+                            </div>
                             <Grid container justify="center" style={{ marginTop: 30 }}>
                                 <Button variant="contained" color="primary" startIcon={<CloudUploadIcon />} onClick={this._openFileDialog} >
                                     上传图片

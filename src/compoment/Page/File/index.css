@@ -29,6 +29,20 @@
  }
 
  .w{
+   width:100px;
+   height:240px;
+   z-index: 1000;
+   position: fixed;;
+   right:20px;
+   margin-top: -35px;
+   top: 50%;
+   /* bottom:10px;
+   overflow:hidden;
+   border:0px groove #281;
+   cursor:default;
+   -moz-user-select:none; */
+ }
+ /* .w{
    position:absolute;
    right:10px;
    bottom:10px;
@@ -38,7 +52,7 @@
    border:0px groove #281;
    cursor:default;
    -moz-user-select:none;
- }
+ } */
  /* .w {
     position: relative;
     right: 10px;
