@@ -286,33 +286,31 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 </Snackbar>
 
                 <Paper className='headblock' elevation={3}>
-                    <Grid container justify="center" spacing={3}>
+                    <Grid container justify="center" >
                         <div className='headGridBlock'>
-                            <Grid container>
-                                <Grid item xs={12} sm={3}>
-                                    <div style={{ textAlign: 'center' }}>
-                                        <img src='ai-icon.svg'></img>
-                                    </div>
+                            <Grid container spacing={4}>
+                                <Grid item xs={12} sm={3} style={{ justifyContent: 'center', alignItems: 'center', display: '-webkit-flex' }}>
+                                    <img src='ai-icon.svg'></img>
                                 </Grid>
 
                                 <Grid item xs={12} sm={9} >
-                                    <div style={{ textAlign: 'center' }}>
-                                        <Typography variant="h1" component="h1" gutterBottom color='inherit' style={{ marginTop: '10%', fontSize: 90, width: '100%' }}>
+                                    <div style={{ textAlign: 'left' }}>
+                                        <Typography variant="h1" component="h1" gutterBottom color='inherit' style={{ marginTop: '10%', fontSize: 90, width: '100%', letterSpacing: '0.5rem' }}>
                                             AI抠图
-                                        </Typography>
+                                            </Typography>
                                         <div style={{ marginTop: '10%', textAlign: 'left' }}>
                                             <Typography variant="subtitle1" gutterBottom color='inherit'>
-                                                点击上传图片选择想要处理的图片(.jpeg/.png格式)
+                                                点击上传图片选择想要处理的图片(.jpeg/.png格式) 目前仅支持处理带有人像的图片
                                             </Typography>
-                                            <Typography variant="subtitle1" gutterBottom color='inherit'>
+                                            {/* <Typography variant="subtitle1" gutterBottom color='inherit'>
                                                 目前仅支持处理带有人像的图片
-                                        </Typography>
+                                            </Typography> */}
                                         </div>
                                         {cloudFileAlert}
                                     </div>
                                 </Grid>
-
                             </Grid>
+
                             <div className='w' >
                                 <div className='winBody'>
                                     <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
@@ -339,24 +337,29 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         <Paper elevation={3}>
                             <div className='countblock' >
                                 <Grid item xs={12} sm={12}>
-                                    <Typography component="h1" variant="h1" gutterBottom align='center' >
+                                    {/* <Typography component="h1" variant="h1" gutterBottom align='center' > */}
+                                    <div className='count'>
+                                        处理
                                         <CountUp
                                             start={0}
                                             end={124}
                                             duration={1.75}
-                                            prefix="共处理 "
-                                            suffix=" 张图片"
-                                            className='count'
+                                            // prefix=""
+                                            // suffix=" "
+                                            className='countNum'
                                         />
+                                        张 预测
                                         <CountUp
                                             start={0}
                                             end={500}
                                             duration={2.75}
-                                            prefix=" 预测 "
-                                            suffix=" 次"
-                                            className='count'
+                                            // prefix=""
+                                            // suffix=""
+                                            className='countNum'
                                         />
-                                    </Typography>
+                                         次图片
+                                    </div>
+                                    {/* </Typography> */}
                                 </Grid>
                             </div>
                         </Paper>

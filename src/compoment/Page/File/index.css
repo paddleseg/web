@@ -22,7 +22,13 @@
 
 .count {
    font-size: 2.5rem;
+   line-height: normal;
    /* color: #377dff; */
+   /* color: white; */
+}
+.countNum {
+   font-size: 2.5rem;
+   color: #377dff;
    /* color: white; */
 }
 
