@@ -1,3 +1,18 @@
+.countblock{
+   margin-top: 3rem;
+   height: 6rem;
+   background-color: #B7CBE1;
+   justify-content: center;
+   align-items: center;
+   display: -webkit-flex;
+}
+
+.count {
+   font-size: 2.5rem;
+   color: #377dff;
+   /* color: white; */
+}
+
 * {
     font-size: 12px;
     font-family: Verdana, 宋体;

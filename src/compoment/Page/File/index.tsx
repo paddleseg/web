@@ -10,6 +10,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import Image from 'material-ui-image';
 import 'fontsource-roboto'
 import './index.css'
+import CountUp from 'react-countup';
 
 import { uploadFile, downfileFromCDN } from '../../../redux/upload';
 import { CLASSIC_MODEL, CUSTOM_MODEL } from '../../../utils/http';
@@ -283,6 +284,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         暂不支持超过10M的图片!
                     </MuiAlert>
                 </Snackbar>
+
                 <Paper style={{ backgroundColor: '#7C9EC5' }}>
                     <Grid container justify="center" spacing={3}>
                         <div style={{ padding: '4rem 2rem', backgroundColor: '#7C9EC5', color: '#ffffff' }}>
@@ -330,6 +332,30 @@ class IndexPage extends Component<uploadProps, uploadState> {
 
                         </div>
                     </Grid>
+                </Paper>
+                <Paper elevation={1}>
+                    <div className='countblock' >
+                        <Grid item xs={12} sm={12}>
+                            <Typography component="h1" variant="h1" gutterBottom align='center' >
+                                <CountUp
+                                    start={0}
+                                    end={124}
+                                    duration={1.75}
+                                    prefix="共处理 "
+                                    suffix=" 张图片"
+                                    className='count'
+                                />
+                                <CountUp
+                                    start={0}
+                                    end={500}
+                                    duration={2.75}
+                                    prefix=", 预测 "
+                                    suffix=" 次"
+                                    className='count'
+                                />
+                            </Typography>
+                        </Grid>
+                    </div>
                 </Paper>
                 <div style={{ marginTop: 30 }}>
                     <Grid container spacing={1} >
