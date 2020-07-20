@@ -12,14 +12,17 @@ import 'fontsource-roboto'
 import './index.css'
 import CountUp from 'react-countup';
 
-import { uploadFile, downfileFromCDN } from '../../../redux/upload';
+import { uploadFile, downfileFromCDN, getImageCount } from '../../../redux/upload';
 import { CLASSIC_MODEL, CUSTOM_MODEL } from '../../../utils/http';
 
 interface uploadProps {
     onUpload: (file: File, key: string, model: string) => void
     onDownload: (url: string, file: string) => void
+    onGetImageCount: () => void
     uploading: boolean,
-    prediction: string
+    prediction: string,
+    srcImageNum: number,
+    preImageNum: number,
 }
 
 interface uploadState {
@@ -50,9 +53,17 @@ class IndexPage extends Component<uploadProps, uploadState> {
         // interval: setInterval(() => this.tick(), 1000)
     }
 
-    componentDidMount = () => {
-        // interval = setInterval(() => this.tick(), 1000);
+    componentWillMount = () => {
+        this.props.onGetImageCount()
     }
+
+    queryImageCount = () => {
+        this.props.onGetImageCount()
+    }
+    // componentDidMount = () => {
+    //     // interval = setInterval(() => this.tick(), 1000);
+
+    // }
 
     _openFileDialog = () => {
 
@@ -157,7 +168,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         let imgDiv;
         let upload;
         let cloudFileAlert;
-
+        // console.log(this.props.srcImageNum, this.props.preImageNum)
         if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
             cloudFileAlert = (
                 <div style={{ marginTop: '2%', textAlign: 'left' }}>
@@ -181,6 +192,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 this.state.progress = 0
                 this.state.buffer = 0
                 clearInterval(interval)
+                this.queryImageCount()
 
                 upload = (
                     <Zoom in={true} style={{ transitionDelay: '50ms' }}>
@@ -343,7 +355,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                         处理
                                         <CountUp
                                             start={0}
-                                            end={124}
+                                            end={this.props.srcImageNum}
                                             duration={1.75}
                                             // prefix=""
                                             // suffix=" "
@@ -352,7 +364,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                         张 预测
                                         <CountUp
                                             start={0}
-                                            end={500}
+                                            end={this.props.preImageNum}
                                             duration={2.75}
                                             // prefix=""
                                             // suffix=""
@@ -372,15 +384,19 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                     <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
                                         <Tooltip title="从图片中找到属于人体的部分,并去除其它元素">
                                             <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.classicModel}>
-                                                抠人像
-                                </Button>
+                                                <div className='buttonFont'>
+                                                    抠人像
+                                                </div>
+                                            </Button>
                                         </Tooltip>
                                     </Grid>
                                     <Grid item xs={6} sm={6} style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
                                         <Tooltip title="从图片中找到属于人体范围内的元素,并去除背景元素">
                                             <Button variant="outlined" color="primary" disabled={this.state.disabled} onClick={this.customModel}>
-                                                去背景
-                                </Button>
+                                                <div className='buttonFont'>
+                                                    去背景
+                                                </div>
+                                            </Button>
                                         </Tooltip>
                                     </Grid>
                                 </Grid>
@@ -403,12 +419,15 @@ const mapStateToProps = (state: any) => ({
     uploading: state.uploadActions.uploading,
     showImg: false,
     prediction: state.uploadActions.predictionfile,
+    srcImageNum: state.uploadActions.SrcImage,
+    preImageNum: state.uploadActions.PreImage,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(
     {
         onUpload: uploadFile,
         onDownload: downfileFromCDN,
+        onGetImageCount: getImageCount,
     },
     dispatch
 )

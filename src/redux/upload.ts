@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
-import { UPLOAD_FILE_TO_QINIU, STAGE_START, STAGE_END } from '../utils/actions';
-import { uploadFileToQiNiu, getAuploadToken, tellServerFileName, getPredictionFile, downFile } from "../service/qiniu";
+import { UPLOAD_FILE_TO_QINIU, STAGE_START, STAGE_END, GET_IMAGE_COUNT } from '../utils/actions';
+import { uploadFileToQiNiu, getAuploadToken, tellServerFileName, getPredictionFile, downFile, getImageCountInCDN } from "../service/qiniu";
 
 type Action = {
     type: string,
@@ -13,12 +13,16 @@ type Action = {
 type State = Readonly<{
     uploading: boolean;
     predictionfile: string,
+    SrcImage: number,
+    PreImage: number,
 }>
 
 
 const initalState: State = {
     uploading: false,
     predictionfile: "",
+    SrcImage: 0,
+    PreImage: 0,
 }
 
 export function downfileFromCDN(url: string, file: string) {
@@ -28,6 +32,19 @@ export function downfileFromCDN(url: string, file: string) {
         } catch (e) {
             console.log(e)
         }
+    }
+}
+
+export function getImageCount() {
+    return async (dispatch: Dispatch) => {
+        getImageCountInCDN().then(e => {
+            dispatch({
+                type: GET_IMAGE_COUNT,
+                payload: e.data
+            })
+        }).catch(e => {
+            console.log(e)
+        })
     }
 }
 
@@ -123,10 +140,12 @@ export default function (state = initalState, action: Action) {
                         uploading: true,
                     }
             }
-
-
-
-
+        case GET_IMAGE_COUNT:
+            return {
+                ...state,
+                SrcImage: action.payload.src_img,
+                PreImage: action.payload.pre_img,
+            }
         default:
             return state
     }
