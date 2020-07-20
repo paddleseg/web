@@ -160,14 +160,14 @@ class IndexPage extends Component<uploadProps, uploadState> {
 
         if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
             cloudFileAlert = (
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ marginTop: '2%', textAlign: 'left' }}>
                     <Typography variant="subtitle1" gutterBottom color='inherit'>
                         不支持读取云盘文件(例如icloud),请使用本地相册文件
                     </Typography>
                 </div>
             )
         } else {
-            cloudFileAlert = (<div></div>)
+            cloudFileAlert = (<div style={{ marginTop: '10%', textAlign: 'left' }}></div>)
         }
         if (this.props.uploading) {
             upload = (
@@ -305,8 +305,9 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                             {/* <Typography variant="subtitle1" gutterBottom color='inherit'>
                                                 目前仅支持处理带有人像的图片
                                             </Typography> */}
+                                            {cloudFileAlert}
                                         </div>
-                                        {cloudFileAlert}
+
                                     </div>
                                 </Grid>
                             </Grid>
