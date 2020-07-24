@@ -11,6 +11,7 @@ import Image from 'material-ui-image';
 import 'fontsource-roboto'
 import './index.css'
 import CountUp from 'react-countup';
+import FileSaver from 'file-saver';
 
 import { uploadFile, downfileFromCDN, getImageCount } from '../../../redux/upload';
 import { CLASSIC_MODEL, CUSTOM_MODEL } from '../../../utils/http';
@@ -75,17 +76,20 @@ class IndexPage extends Component<uploadProps, uploadState> {
 
 
     download = () => {
+        // var index = this.props.prediction.lastIndexOf("/") + 1;
+        // var filename = this.props.prediction.substr(index);
+        // fetch(this.props.prediction).then(res => res.blob().then(blob => {
+        //     var a = document.createElement('a');
+        //     var url = window.URL.createObjectURL(blob);
+        //     // var filename = filename;
+        //     a.href = url;
+        //     a.download = filename;
+        //     a.click();
+        //     window.URL.revokeObjectURL(url);
+        // }))
         var index = this.props.prediction.lastIndexOf("/") + 1;
         var filename = this.props.prediction.substr(index);
-        fetch(this.props.prediction).then(res => res.blob().then(blob => {
-            var a = document.createElement('a');
-            var url = window.URL.createObjectURL(blob);
-            // var filename = filename;
-            a.href = url;
-            a.download = filename;
-            a.click();
-            window.URL.revokeObjectURL(url);
-        }))
+        FileSaver.saveAs(this.props.prediction, filename);
     }
 
     tick() {
@@ -168,7 +172,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         let imgDiv;
         let upload;
         let cloudFileAlert;
-        // console.log(this.props.srcImageNum, this.props.preImageNum)
+
         if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
             cloudFileAlert = (
                 <div style={{ marginTop: '2%', textAlign: 'left' }}>
@@ -195,49 +199,53 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 this.queryImageCount()
 
                 upload = (
-                    <Zoom in={true} style={{ transitionDelay: '50ms' }}>
-                        <Grid container justify="flex-start">
-                            <Card style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
+                    // <Zoom in={true} style={{ transitionDelay: '50ms' }}>
+                    <Grid container justify="flex-start">
+                        <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
 
-                                <CardHeader
-                                    action={
-                                        <IconButton aria-label="download">
-                                            <GetAppIcon onClick={this.download} />
-                                        </IconButton>
-                                    }
+                            <CardHeader
+                                action={
+                                    <IconButton aria-label="download">
+                                        {/* <GetAppIcon >
+                                            <a href={this.props.prediction} download={this.props.prediction} />
+                                        </GetAppIcon> */}
+                                        <GetAppIcon onClick={this.download} />
+                                    </IconButton>
+                                }
 
-                                />
-                                <CardMedia
-                                    component="img"
-                                    alt="预测图"
-                                    image={this.props.prediction}
-                                    title="预测图"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h3" component="h2">
-                                        预测图
+                            />
+                            <CardMedia
+                                component="img"
+                                alt="预测图"
+                                image={this.props.prediction}
+                                title="预测图"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h3" component="h2">
+                                    预测图
                                 </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        图片背景已设置为透明背景,可点击右侧按钮完成下载
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    图片背景已设置为透明背景,可点击右侧按钮完成下载
                                 </Typography>
-                                </CardContent>
-                            </Card>
-                            {/* <Paper elevation={3}>
+                            </CardContent>
+                        </Card>
+                        {/* <Paper elevation={3}>
                         <img style={{ width: '100%' }} src={this.props.prediction} alt='预测图片' />
                     </Paper> */}
-                        </Grid>
-                    </Zoom>
+                    </Grid>
+                    // </Zoom>
                 )
             }
         }
         if (this.state.showImg) {
             imgDiv = (
                 <div>
-                    <Zoom in={true} style={{ transitionDelay: '500ms' }}>
-                        <Grid container
-                            direction="row"
-                            justify="center"
-                            alignItems="baseline" spacing={1} >
+
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="baseline" spacing={1} >
+                        <Zoom in={true} style={{ transitionDelay: '500ms' }}>
                             <Grid item xs={12} sm={6} >
                                 <Grid container justify="flex-end">
                                     <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
@@ -266,11 +274,12 @@ class IndexPage extends Component<uploadProps, uploadState> {
                                     </Card>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                {upload}
-                            </Grid>
-                        </Grid >
-                    </Zoom>
+                        </Zoom>
+                        <Grid item xs={12} sm={6}>
+                            {upload}
+                        </Grid>
+                    </Grid >
+
                     {/* <div className='w' >
                         <div className='winBody'>
                             <img src='wx.png' style={{ 'width': '100px', 'height': '100px' }} />
@@ -336,7 +345,9 @@ class IndexPage extends Component<uploadProps, uploadState> {
                             </div>
                             <Grid container justify="center" style={{ marginTop: 30 }}>
                                 <Button variant="contained" color="primary" startIcon={<CloudUploadIcon />} onClick={this._openFileDialog} >
-                                    上传图片
+                                    <Typography component="h3" variant="h3" style={{ color: '#ffffff' }}>
+                                        上传图片
+                                    </Typography>
                                 </Button>
                                 <input id="myInput" onChange={this.handleChange} type="file" ref="fileUpload" style={{ display: 'none' }} accept=".jpg,.jpeg,.png" />
                             </Grid>
