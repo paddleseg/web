@@ -201,7 +201,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                 upload = (
                     // <Zoom in={true} style={{ transitionDelay: '50ms' }}>
                     <Grid container justify="flex-start">
-                        <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
+                        <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12, maxWidth: 512 }}>
 
                             <CardHeader
                                 action={
@@ -248,7 +248,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                         <Zoom in={true} style={{ transitionDelay: '500ms' }}>
                             <Grid item xs={12} sm={6} >
                                 <Grid container justify="flex-end">
-                                    <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12 }}>
+                                    <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12, maxWidth: 512 }}>
                                         <CardHeader
                                             action={
                                                 <IconButton aria-label="settings">
