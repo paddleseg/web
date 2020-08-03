@@ -7,11 +7,13 @@ import MuiAlert from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 import 'fontsource-roboto'
 import './index.css'
 import CountUp from 'react-countup';
 import FileSaver from 'file-saver';
+
 
 import { uploadFile, downfileFromCDN, getImageCount } from '../../../redux/upload';
 import { CLASSIC_MODEL, CUSTOM_MODEL } from '../../../utils/http';
@@ -247,14 +249,47 @@ class IndexPage extends Component<uploadProps, uploadState> {
         } else {
             cloudFileAlert = (<div style={{ marginTop: '10%', textAlign: 'left' }}></div>)
         }
+
         if (this.props.uploading) {
+
             upload = (
-                <div style={{ marginTop: '30%' }}>
-                    <LinearProgress variant="buffer" value={this.state.progress} valueBuffer={this.state.buffer} />
+                // <div style={{ marginTop: '30%' }}>
+                //     <LinearProgress variant="buffer" value={this.state.progress} valueBuffer={this.state.buffer} />
+                // </div>
+                <div>
+                    <Grid container justify="flex-start">
+                        <Card raised style={{ margin: 'auto', borderRadius: 30, padding: 12, width: 512, height: 512 }}>
+
+                            <CardHeader
+                                action={
+                                    <IconButton aria-label="download">
+                                        <HourglassEmptyIcon />
+                                    </IconButton>
+                                }
+
+                            />
+                            <CardContent style={{ flexGrow: 1 }}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                        <div style={{ padding: 2, textAlign: 'center', marginTop: '25%' }}>
+                                            <CountUp
+                                                start={0}
+                                                end={130}
+                                                duration={130}
+                                                useEasing={false}
+                                                className="countdown"
+                                            />
+                                        </div>
+
+                                    </Grid>
+                                </Grid>
+
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </div>
             )
         } else {
-
             if (this.props.prediction.length > 0) {
                 this.state.progress = 0
                 this.state.buffer = 0

@@ -35,6 +35,12 @@
    /* color: white; */
 }
 
+.countdown{
+   font-size: 10rem;
+   color: #377dff;
+   margin-top: auto;
+}
+
 .menublock{
    margin-top: 3rem;
    height: 6rem;
@@ -145,3 +151,37 @@
     /* text-indent: 10px; */
     background-color: white;
  }
+
+ .list {
+   height: 0.84rem;
+   font-size: 0;
+   letter-spacing: -5px;
+   white-space: nowrap;
+   margin: 0.3rem;
+}
+.list i {
+   position: relative;
+   display: inline-block;
+   width: 0.62rem;
+   height: 0.84rem;
+   text-align: center;
+   color: #e8cd92;
+   font-size: 0.28rem;
+   letter-spacing: 0;
+   overflow: hidden;
+   margin-right: 0.07rem;
+}
+.list span {
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 8.4rem;
+   /* background: url('../images/number.png') no-repeat; */
+   background-size: 100% 100%;
+}
+.list b {
+   display: inline-block;
+   font-size: 0.28rem;
+   margin-right: 0.07rem;
+}
