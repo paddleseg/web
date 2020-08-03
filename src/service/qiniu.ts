@@ -9,8 +9,13 @@ export function downFile(url: string, name: string) {
     })
 }
 
-export function tellServerFileName(name: string, model: string) {
-    return axios.post(httpvariable.CDNFILENAME + model, name)
+export function tellServerFileName(name: string, model: string, rotate: number) {
+    let body = {
+        'name': name,
+        'rotate': rotate,
+    }
+
+    return axios.post(httpvariable.CDNFILENAME + model, body)
 }
 
 export function getAuploadToken() {
@@ -30,7 +35,12 @@ export function uploadFileToQiNiu(file: File, key: string, token: string,) {
 
     observable.subscribe({
         next(res) {
-            // console.log(res.uploadInfo?.url)
+            // console.log(res.uploadInfo.)
+            // const url = qiniu.imageMogr2({
+            //     "auto-orient": true,      // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
+            //     strip: false,              // 布尔值，是否去除图片中的元信息
+            // }, key, 'cdn.iimg.devexp.cn')
+            // console.log(url)
         },
         error(err) {
             console.log(err)

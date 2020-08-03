@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom';
-import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardHeader, IconButton, Snackbar, Paper, Zoom, Tooltip, Fab, CardActionArea } from '@material-ui/core'
+import { Grid, Card, Button, LinearProgress, Typography, CardMedia, CardContent, CardHeader, IconButton, Snackbar, Paper, Zoom, Tooltip, } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import Image from 'material-ui-image';
+
 import 'fontsource-roboto'
 import './index.css'
 import CountUp from 'react-countup';
@@ -17,7 +17,7 @@ import { uploadFile, downfileFromCDN, getImageCount } from '../../../redux/uploa
 import { CLASSIC_MODEL, CUSTOM_MODEL } from '../../../utils/http';
 
 interface uploadProps {
-    onUpload: (file: File, key: string, model: string) => void
+    onUpload: (file: File, key: string, model: string, rotate: number) => void
     onDownload: (url: string, file: string) => void
     onGetImageCount: () => void
     uploading: boolean,
@@ -35,6 +35,7 @@ interface uploadState {
     showAlert: boolean
     fileSizeTooLarge: boolean
     names: string[],
+    rotate: number,
 }
 
 var interval: NodeJS.Timeout;
@@ -51,7 +52,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         showAlert: false,
         fileSizeTooLarge: false,
         names: [],
-        // interval: setInterval(() => this.tick(), 1000)
+        rotate: 0,
     }
 
     componentWillMount = () => {
@@ -92,6 +93,49 @@ class IndexPage extends Component<uploadProps, uploadState> {
         FileSaver.saveAs(this.props.prediction, filename);
     }
 
+    getOrientation = (file: Blob, callback: any) => {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            if (e !== null) {
+
+                var view = new DataView(e.target?.result as ArrayBufferLike);
+                if (view.getUint16(0, false) !== 0xFFD8) {
+                    return callback(-2);
+                }
+                var length = view.byteLength, offset = 2;
+                while (offset < length) {
+                    if (view.getUint16(offset + 2, false) <= 8) return callback(-1);
+                    var marker = view.getUint16(offset, false);
+                    offset += 2;
+                    if (marker === 0xFFE1) {
+                        if (view.getUint32(offset += 2, false) !== 0x45786966) {
+                            return callback(-1);
+                        }
+
+                        var little = view.getUint16(offset += 6, false) === 0x4949;
+                        offset += view.getUint32(offset + 4, little);
+                        var tags = view.getUint16(offset, little);
+                        offset += 2;
+                        for (var i = 0; i < tags; i++) {
+                            if (view.getUint16(offset + (i * 12), little) === 0x0112) {
+                                return callback(view.getUint16(offset + (i * 12) + 8, little));
+                            }
+                        }
+                    }
+                    else if ((marker & 0xFF00) !== 0xFF00) {
+                        break;
+                    }
+                    else {
+                        offset += view.getUint16(offset, false);
+                    }
+                }
+
+                return callback(-1);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
     tick() {
         if (this.state.progress > 100) {
             this.setState({
@@ -116,7 +160,26 @@ class IndexPage extends Component<uploadProps, uploadState> {
     }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
         if (event.target.files && event.target.files[0]) {
+            this.getOrientation(event.target.files[0], (e: number) => {
+                let rotate = 0
+                switch (e) {
+                    case 1:
+                        rotate = 0
+                        break
+                    case 8:
+                        rotate = -90
+                        break
+                    case 3:
+                        rotate = 180
+                        break
+                    case 6:
+                        rotate = 90
+                        break
+                }
+                this.setState({ rotate: rotate })
+            })
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]); // read file as data url
 
@@ -156,7 +219,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         let d = new Date()
         let names = this.state.names
         let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
-        this.props.onUpload(f, name, CLASSIC_MODEL)
+        this.props.onUpload(f, name, CLASSIC_MODEL, this.state.rotate)
         interval = setInterval(() => this.tick(), 1000);
     }
 
@@ -164,7 +227,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
         let d = new Date()
         let names = this.state.names
         let name = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${names[0]}-${d.getTime()}.${names[1]}`
-        this.props.onUpload(f, name, CUSTOM_MODEL)
+        this.props.onUpload(f, name, CUSTOM_MODEL, this.state.rotate)
         interval = setInterval(() => this.tick(), 1000);
     }
 
@@ -217,7 +280,7 @@ class IndexPage extends Component<uploadProps, uploadState> {
                             <CardMedia
                                 component="img"
                                 alt="预测图"
-                                image={this.props.prediction}
+                                image={this.props.prediction + '-ai'}
                                 title="预测图"
                             />
                             <CardContent>

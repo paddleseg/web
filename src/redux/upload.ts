@@ -48,7 +48,7 @@ export function getImageCount() {
     }
 }
 
-export function uploadFile(file: File, key: string, model: string) {
+export function uploadFile(file: File, key: string, model: string, rotate: number) {
     return async (dispath: Dispatch) => {
         // 标记上传开始
         dispath({
@@ -61,7 +61,7 @@ export function uploadFile(file: File, key: string, model: string) {
             getAuploadToken().then(async e => {
                 // console.log(e.data)
                 await uploadFileToQiNiu(file, key, e.data)
-                tellServerFileName(key, model).then(e => {
+                tellServerFileName(key, model, rotate).then(e => {
                     dispath({
                         type: UPLOAD_FILE_TO_QINIU,
                     })
